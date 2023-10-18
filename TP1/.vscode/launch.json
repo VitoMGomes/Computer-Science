@@ -1,0 +1,120 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Algebra2",
+      "request": "launch",
+      "mainClass": "Algebra2",
+      "projectName": "TP1_40d4fdb4"
+    },
+    {
+      "type": "java",
+      "name": "AlgebraBooleana",
+      "request": "launch",
+      "mainClass": "AlgebraBooleana",
+      "projectName": "TP1_40d4fdb4"
+    },
+    {
+      "type": "java",
+      "name": "questao1",
+      "request": "launch",
+      "mainClass": "Teste.questao1",
+      "projectName": "TP1_40d4fdb4"
+    },
+    {
+      "type": "java",
+      "name": "Html",
+      "request": "launch",
+      "mainClass": "Html",
+      "projectName": "TP1_40d4fdb4"
+    },
+    {
+      "type": "java",
+      "name": "CiframentoRec",
+      "request": "launch",
+      "mainClass": "CiframentoRec",
+      "projectName": "TP1_40d4fdb4"
+    },
+    {
+      "type": "java",
+      "name": "Is",
+      "request": "launch",
+      "mainClass": "Is",
+      "projectName": "TP1_40d4fdb4"
+    },
+    {
+      "type": "java",
+      "name": "IsRec",
+      "request": "launch",
+      "mainClass": "IsRec",
+      "projectName": "TP1_40d4fdb4"
+    },
+    {
+      "type": "java",
+      "name": "Alteracao",
+      "request": "launch",
+      "mainClass": "Alteracao",
+      "projectName": "TP1_40d4fdb4"
+    },
+    {
+      "type": "java",
+      "name": "Ciframento",
+      "request": "launch",
+      "mainClass": "Ciframento",
+      "projectName": "TP1_40d4fdb4"
+    },
+    {
+      "type": "java",
+      "name": "Palindromo",
+      "request": "launch",
+      "mainClass": "Palindromo",
+      "projectName": "TP1_40d4fdb4"
+    },
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "externalConsole": true,
+      "cwd": "d:/!Facul/2 periodo/AEDS II/TPs/TP1/TP01Q11",
+      "program": "d:/!Facul/2 periodo/AEDS II/TPs/TP1/TP01Q11/build/Debug/outDebug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
+    },
+    {
+      "name": "C/C++: gcc.exe build and debug active file",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "C:/msys64/mingw64/bin",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "miDebuggerPath": "C:\\msys64\\mingw64\\bin\\gdb.exe",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        },
+        {
+          "description": "Set Disassembly Flavor to Intel",
+          "text": "-gdb-set disassembly-flavor intel",
+          "ignoreFailures": true
+        }
+      ],
+      "preLaunchTask": "C/C++: gcc.exe build active file"
+    }
+  ]
+}
