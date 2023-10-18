@@ -1,2 +1,1 @@
-# CodingBackups
-Backup dos códigos da facul, depois tenho que passar para CC
+# Codigos da minha faculdade de Ciência da Computação a partir do segundo periodo
