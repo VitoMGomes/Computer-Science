@@ -201,10 +201,6 @@ public class Questao15
     }
 
     public static void main(String[] args) {
-        File arq = new File("800643_selecaoParcial.txt");
-        int comparacoes = 0;
-        int movimentacoes = 0;
-        
         Jogador[] jogadores = new Jogador[3991];
         
         int tam = 0;
@@ -219,20 +215,16 @@ public class Questao15
             id = MyIO.readLine();
         }
         
-        long inicio = new Date().getTime();//marca o inicio do programa
         for (int i = 0; i < 10; i++) {
             int minIndex = i;
             for (int j = i + 1; j < tam; j++) {
                 if (jogadores[j].getNome().compareTo(jogadores[minIndex].getNome()) < 0) {
                     minIndex = j;
                 }
-                comparacoes++;
             }
             Jogador temp = jogadores[minIndex];
             jogadores[minIndex] = jogadores[i];
             jogadores[i] = temp;
-
-            movimentacoes += 3;
 
         }
         
@@ -240,19 +232,6 @@ public class Questao15
         {
             jogadores[i].status();
         }
-
-
-
-        long fim = new Date().getTime();//marca a hora de finalização
-        long execucao = fim - inicio;
-        try {
-            FileWriter fw = new FileWriter(arq);
-            fw.write("Matrícula: 800643 |" + "\tTempo: "+ execucao/1000f + "s |" + " \tComparações: " + comparacoes + " | \tMovimentações: " + movimentacoes);
-            fw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        
     }
         
 }

@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-// cat pub.in | java Questao07 > saida.out --  "/tmp/players.csv"
+// cat pub.in | java Questao13 > saida.out --  "/tmp/players.csv"
 
 class Jogador {
     private int id;
@@ -157,9 +157,9 @@ class Jogador {
                     int ano = Integer.parseInt(data[5]);
                     String cidade = data[6];
                     String estado = data[7];
-
+                    
                     x.define(idInt, nome, altura, peso, universidade, ano, cidade, estado);
-
+                    
                     i = 1;
                 }
             } 
@@ -169,7 +169,7 @@ class Jogador {
         }
         return x;
     }
-//----------------[CLONE]--------------------
+    //----------------[CLONE]--------------------
     public Jogador clone() {
         Jogador clonado = new Jogador();
         clonado.id = this.id;
@@ -180,80 +180,86 @@ class Jogador {
         clonado.anoNascimento = this.anoNascimento;
         clonado.cidadeNascimento = this.cidadeNascimento;
         clonado.estadoNascimento = this.estadoNascimento;
-
+        
         return clonado;
     }
-
+    
 }
 
-
-
-
-class Log
+public class Questao13
 {
-    private int comparacoes;
-    private int movimentacoes;
-    private long timerInit;
-    private long timerFim;
+    public static Jogador[] jogadores = new Jogador[3991];
+    public static int comparacoes = 0, movimentacoes = 0;
 
-    public Log() {
-        this.comparacoes = 0;
-        this.movimentacoes = 0;
-        this.timerInit = 0;
-        this.timerFim = 0;
-    }
+    private static void merge(int left, int mid, int right) 
+    {
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
 
-    public void setComparacoes(int comparacoes) {
-        this.comparacoes += comparacoes;
-    }
-    public int getComparacoes() {
-        return comparacoes;
-    }
+        Jogador[] auxLeft = new Jogador[n1];
+        Jogador[] auxRight = new Jogador[n2];
 
-    public void setMovimentacoes(int movimentacoes) {
-        this.movimentacoes += movimentacoes;
-    }
-    public int getMovimentacoes() {
-        return movimentacoes;
-    }
-
-    public void status() {
-        MyIO.println("Matrícula: 800643\tTempo: " + (timerFim - timerInit)/1000.0 + "s\t" + "Comparações: " + comparacoes + "\tMovimentações: " + movimentacoes);
-    }
-
-    public void setTimerInit(long timerInit) {
-        this.timerInit = timerInit;
-    }
-    public void setTimerFim(long timerFim) {
-        this.timerFim = timerFim;
-    }
-}
-
-
-
-public class Questao07 
-{
-
-    public static boolean stop(String id) {
-        boolean stop = true;
-
-        if (id.equals("FIM")) {
-            stop = false;
+        for (int i = 0; i < n1; i++) {
+            auxLeft[i] = jogadores[left + i];
+        }
+        for (int j = 0; j < n2; j++) {
+            auxRight[j] = jogadores[mid + 1 + j];
         }
 
-        return stop;
+        int i = 0, j = 0, l = left;
+        while (i < n1 && j < n2) {
+            if (auxLeft[i].getUniversidade().compareTo(auxRight[j].getUniversidade()) <= 0) {
+                jogadores[l] = auxLeft[i];
+                i++;
+                comparacoes++;
+                movimentacoes++;
+            } else {
+                jogadores[l] = auxRight[j];
+                j++;
+                comparacoes++;
+                movimentacoes++;
+            }
+            l++;
+           comparacoes+=2;
+        }
+
+        while (i < n1) {
+            jogadores[l] = auxLeft[i];
+            i++;
+            l++;
+            comparacoes++;
+            movimentacoes++;
+
+        }
+
+        while (j < n2) {
+            jogadores[l] = auxRight[j];
+            j++;
+            l++;
+            comparacoes++;
+            movimentacoes++;
+        }
+
+    }
+
+    public static void mergeSort(int left, int right) {
+        if (left < right) {
+            int meio = (left + right) / 2;
+    
+            mergeSort(left, meio); 
+            mergeSort(meio + 1, right); 
+    
+            merge(left, meio, right);
+        }
     }
 
     public static void main(String[] args) {
-        File arq = new File("800643_insercao.txt");
-        int comparacoes = 0;
-        int movimentacoes = 0;
-        
-        Jogador[] jogadores = new Jogador[3991];
-        
+        File arq = new File("800643_mergesort.txt");
+
+
         int tam = 0;
         String id = MyIO.readLine();
-        
+
         while (!id.equals("FIM")) {
             Jogador jogador = new Jogador();
             jogador = jogador.ler(id);
@@ -262,34 +268,33 @@ public class Questao07
             tam++;
             id = MyIO.readLine();
         }
-        
+  
         long inicio = new Date().getTime();//marca o inicio do programa
-        for (int i = 1; i < tam; i++) {
-            Jogador aux = jogadores[i].clone();
-            movimentacoes++;
-            
-            int j = i - 1;
-            while(j >= 0 && jogadores[j].getAnoNascimento() > aux.getAnoNascimento()) {
-                jogadores[j+1] = jogadores[j];
-                movimentacoes++;
-                j--;
-                comparacoes++; //somente a de ano
-            }
-            while(j >= 0 && jogadores[j].getAnoNascimento() == aux.getAnoNascimento() && jogadores[j].getNome().compareTo(aux.getNome()) > 0) {
-                jogadores[j+1] = jogadores[j];
-                movimentacoes++;
-                j--;
-                comparacoes += 2; //uma de ano e outra de nome
-            }
-            jogadores[j+1] = aux;
-            movimentacoes++;
-        }
-        long fim = new Date().getTime();//marca a hora de finalização
+
+        mergeSort(0, tam - 1);
         
+        long fim = new Date().getTime();//marca a hora de finalização
+
+        //ordena por nome dentro das universidades
+        for(int i = 1; i < tam; i++){
+            Jogador temp = jogadores[i];
+            int j = i - 1;
+            if(jogadores[j].getNome().compareTo(temp.getNome()) > 0)
+            {
+                while((j >= 0) && (jogadores[j].getUniversidade().compareTo(temp.getUniversidade()) == 0) && jogadores[j].getNome().compareTo(temp.getNome()) > 0){
+                    jogadores[j + 1] = jogadores[j];
+                    j--;
+                }
+            }
+          jogadores[j + 1] = temp;
+        }
+
+        //System.out.println(tam);
         for(int i = 0; i < tam; i++)
         {
             jogadores[i].status();
         }
+
 
         long execucao = fim - inicio;
         try {
@@ -299,7 +304,5 @@ public class Questao07
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
     }
-        
 }

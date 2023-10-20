@@ -139,7 +139,7 @@ class Jogador {
     public Jogador ler(String id) {
         Jogador x = null;
         try {
-            BufferedReader br = new BufferedReader(new FileReader("players.csv"));
+            BufferedReader br = new BufferedReader(new FileReader("/tmp/players.csv"));
             String line;
             int i = 0;
             while (((line = br.readLine()) != null) && i == 0) {
@@ -188,13 +188,14 @@ class Jogador {
 
 public class Questao11 
 {
+
     public static int comparacoes = 0, movimentacoes = 0;
 
     private static int maior(Jogador[] jogador, int len){
         int maiorAltura = jogador[0].getAltura();
         for(int i=1; i < len; i++){
             if(jogador[i].getAltura() > maiorAltura){
-                maiorAltura = jogador[i].getAltura(); 
+                maiorAltura = jogador[i].getAltura();
             }
         }
         return maiorAltura;
@@ -206,12 +207,16 @@ public class Questao11
             int j = i - 1;
             if(array[j].getNome().compareTo(temp.getNome()) > 0)
             {
+                comparacoes++;
                 while((j >= 0) && (array[j].getAltura() == temp.getAltura()) && array[j].getNome().compareTo(temp.getNome()) > 0){
+                    comparacoes++;
                     array[j + 1] = array[j];
+                    movimentacoes++;
                     j--;
                 }
             }
           array[j + 1] = temp;
+          movimentacoes++;
         }
         
         return array;
@@ -225,13 +230,16 @@ public class Questao11
         }
         for (int i = 0; i < len; i++) {
             count[jogador[i].getAltura()]++;
+            movimentacoes++;
         }
         for (int i = 1; i < count.length; i++) {
             count[i] += count[i - 1];
+            movimentacoes++;
         }
         for (int i = len - 1; i >= 0; i--) {
             counted[count[jogador[i].getAltura()] - 1] = jogador[i];
             count[jogador[i].getAltura()]--;
+            movimentacoes++;
         }
 
         counted = ordenarNome(counted, len);
@@ -255,9 +263,9 @@ public class Questao11
         }
   
         long inicio = new Date().getTime();//marca o inicio do programa
+        
         jogadores = counting(jogadores, tam); 
 
-        
         long fim = new Date().getTime();//marca a hora de finalização
         
         //System.out.println(tam);

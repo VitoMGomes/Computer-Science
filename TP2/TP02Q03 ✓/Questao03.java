@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-// cat pub.in | java Questao13 > saida.out --  "/tmp/players.csv"
+// cat pub.in | java Questao03 > saida.out --  "/tmp/players.csv"
 
 class Jogador {
     private int id;
@@ -139,7 +139,7 @@ class Jogador {
     public Jogador ler(String id) {
         Jogador x = null;
         try {
-            BufferedReader br = new BufferedReader(new FileReader("players.csv"));
+            BufferedReader br = new BufferedReader(new FileReader("/tmp/players.csv"));
             String line;
             int i = 0;
             while (((line = br.readLine()) != null) && i == 0) {
@@ -186,18 +186,29 @@ class Jogador {
 
 }
 
-public class Questao13
+
+public class Questao03 
 {
-    public static int comparacoes = 0, movimentacoes = 0;
+
+    public static boolean stop(String id) {
+        boolean stop = true;
+
+        if (id.equals("FIM")) {
+            stop = false;
+        }
+
+        return stop;
+    }
 
     public static void main(String[] args) {
-        File arq = new File("800643_countingsort.txt");
-
+        File arq = new File("800643_sequencial.txt");
+        int comparacoes = 0;
+        
         Jogador[] jogadores = new Jogador[3991];
-
+        
         int tam = 0;
         String id = MyIO.readLine();
-
+        
         while (!id.equals("FIM")) {
             Jogador jogador = new Jogador();
             jogador = jogador.ler(id);
@@ -206,26 +217,44 @@ public class Questao13
             tam++;
             id = MyIO.readLine();
         }
-  
+        
         long inicio = new Date().getTime();//marca o inicio do programa
 
+        String nome = MyIO.readLine();
+        while(stop(nome))
+        {
+            String nomeJoga = "";
+            boolean resp = false;
+            for(int i = 0; i < tam; i++) {
+                nomeJoga = jogadores[i].getNome();
+                if(nomeJoga.contains(nome)) 
+                {
+                    i = tam;
+                    resp = true;
+                }
+                comparacoes++;   
+            }
+            if(resp)
+            {
+                System.out.println("SIM");
+            }
+            else
+            {
+                System.out.println("NAO");
+            }
+            nome = MyIO.readLine();
+        }
         
         long fim = new Date().getTime();//marca a hora de finalização
-        
-        //System.out.println(tam);
-        for(int i = 0; i < tam; i++)
-        {
-            jogadores[i].status();
-        }
-
-
         long execucao = fim - inicio;
         try {
             FileWriter fw = new FileWriter(arq);
-            fw.write("Matrícula: 800643 |" + "\tTempo: "+ execucao/1000f + "s |" + " \tComparações: " + comparacoes + " | \tMovimentações: " + movimentacoes);
+            fw.write("Matrícula: 800643 |" + " \tTempo: "+ execucao/1000f + "s |" + " \tComparações: " + comparacoes);
             fw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
     }
+        
 }

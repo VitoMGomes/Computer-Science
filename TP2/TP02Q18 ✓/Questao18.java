@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-// cat pub.in | java Questao03 > saida.out --  "/tmp/players.csv"
+// cat pub.in | java Questao18 > saida.out --  "/tmp/players.csv"
 
 class Jogador {
     private int id;
@@ -157,9 +157,9 @@ class Jogador {
                     int ano = Integer.parseInt(data[5]);
                     String cidade = data[6];
                     String estado = data[7];
-
+                    
                     x.define(idInt, nome, altura, peso, universidade, ano, cidade, estado);
-
+                    
                     i = 1;
                 }
             } 
@@ -169,7 +169,7 @@ class Jogador {
         }
         return x;
     }
-//----------------[CLONE]--------------------
+    //----------------[CLONE]--------------------
     public Jogador clone() {
         Jogador clonado = new Jogador();
         clonado.id = this.id;
@@ -180,35 +180,44 @@ class Jogador {
         clonado.anoNascimento = this.anoNascimento;
         clonado.cidadeNascimento = this.cidadeNascimento;
         clonado.estadoNascimento = this.estadoNascimento;
-
+        
         return clonado;
     }
-
+    
 }
 
-
-public class Questao03 
+public class Questao18
 {
+    public static Jogador[] jogadores = new Jogador[3991];
 
-    public static boolean stop(String id) {
-        boolean stop = true;
-
-        if (id.equals("FIM")) {
-            stop = false;
+    private static void quickSort(int esq, int dir){
+        Jogador pivo = jogadores[(esq+dir)/2].clone();
+        int i = esq, j = dir, k = 20;  
+        while(i <= j){
+            while(pivo.getEstadoNascimento().compareTo(jogadores[i].getEstadoNascimento()) > 0){
+                i++;
+            }
+            while(pivo.getEstadoNascimento().compareTo(jogadores[j].getEstadoNascimento()) < 0){
+                j--;
+            }
+            if(i<=j){
+                Jogador tmp = jogadores[j];
+                jogadores[j] = jogadores[i];
+                jogadores[i] = tmp;
+                i++;
+                j--;
+            }
         }
-
-        return stop;
+        if( esq < j ) quickSort(esq, j);
+        if (i < k && i < dir) quickSort(i, dir);
     }
 
+
+
     public static void main(String[] args) {
-        File arq = new File("800643_sequencial.txt");
-        int comparacoes = 0;
-        
-        Jogador[] jogadores = new Jogador[3991];
-        
         int tam = 0;
         String id = MyIO.readLine();
-        
+
         while (!id.equals("FIM")) {
             Jogador jogador = new Jogador();
             jogador = jogador.ler(id);
@@ -217,42 +226,28 @@ public class Questao03
             tam++;
             id = MyIO.readLine();
         }
+  
+        quickSort(0, tam - 1);
         
-        long inicio = new Date().getTime();//marca o inicio do programa
-        String nome = MyIO.readLine();
-        while(stop(nome))
-        {
-            String nomeJoga = "";
-            boolean resp = false;
-            for(int i = 0; i < tam; i++) {
-                nomeJoga = jogadores[i].getNome();
-                if(nomeJoga.contains(nome)) 
-                {
-                    i = tam;
-                    resp = true;
+        //ordena por nome dentro dos estados
+        for(int i = 1; i < 20; i++){
+            Jogador temp = jogadores[i];
+            int j = i - 1;
+            if(jogadores[j].getNome().compareTo(temp.getNome()) > 0)
+            {
+                while((j >= 0) && (jogadores[j].getEstadoNascimento().compareTo(temp.getEstadoNascimento()) == 0) && jogadores[j].getNome().compareTo(temp.getNome()) >= 0){
+                    jogadores[j + 1] = jogadores[j];
+                    j--;
                 }
-                comparacoes++;   
             }
-            if(resp)
-            {
-                System.out.println("SIM");
-            }
-            else
-            {
-                System.out.println("NAO");
-            }
-            nome = MyIO.readLine();
+          jogadores[j + 1] = temp;
         }
-        long fim = new Date().getTime();//marca a hora de finalização
-        long execucao = fim - inicio;
-        try {
-            FileWriter fw = new FileWriter(arq);
-            fw.write("Matrícula: 800643 |" + " \tTempo: "+ execucao/1000f + "s |" + " \tComparações: " + comparacoes);
-            fw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        //System.out.println(tam);
+        for(int i = 0; i < 10; i++)
+        {
+            jogadores[i].status();
         }
-        
+
     }
-        
 }
