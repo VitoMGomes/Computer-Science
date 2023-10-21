@@ -2,27 +2,6 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "java",
-      "name": "Questao15",
-      "request": "launch",
-      "mainClass": "Questao15",
-      "projectName": "TP2_ffbfb988"
-    },
-    {
-      "type": "java",
-      "name": "Questao18",
-      "request": "launch",
-      "mainClass": "Questao18",
-      "projectName": "TP2_ffbfb988"
-    },
-    {
-      "type": "java",
-      "name": "Questao11",
-      "request": "launch",
-      "mainClass": "Questao11",
-      "projectName": "TP2_40d4fdb5"
-    },
-    {
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
       "request": "launch",
