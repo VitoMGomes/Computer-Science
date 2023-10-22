@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Questao09",
+      "request": "launch",
+      "mainClass": "Questao09",
+      "projectName": "TP2_ffbfb988"
+    },
+    {
+      "type": "java",
       "name": "Questao15",
       "request": "launch",
       "mainClass": "Questao15",
@@ -29,8 +36,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/vitor/Downloads/Repo/Computer-Science/TP2/TP02Q06",
-      "program": "c:/Users/vitor/Downloads/Repo/Computer-Science/TP2/TP02Q06/build/Debug/outDebug",
+      "cwd": ".",
+      "program": "build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

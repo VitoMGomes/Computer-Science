@@ -19,7 +19,8 @@ class Jogador {
                 + this.getCidadeNascimento() + " ## " + this.getEstadoNascimento() + "]");
     }
 
-    public void define(int id, String nome, int altura, int peso, String universidade, int ano, String cidade, String estado) {
+    public void define(int id, String nome, int altura, int peso, String universidade, int ano, String cidade,
+            String estado) {
         setId(id);
         setNome(nome);
         setAltura(altura);
@@ -42,7 +43,8 @@ class Jogador {
         this.setEstadoNascimento("nao informado");
     }
 
-    public Jogador(int id, String nome, int altura, int peso, String universidade, int ano, String cidade, String estado) {
+    public Jogador(int id, String nome, int altura, int peso, String universidade, int ano, String cidade,
+            String estado) {
         this.setId(id);
         this.setNome(nome);
         this.setAltura(altura);
@@ -139,11 +141,11 @@ class Jogador {
     public Jogador ler(String id) {
         Jogador x = null;
         try {
-            BufferedReader br = new BufferedReader(new FileReader("/tmp/players.csv"));
+            BufferedReader br = new BufferedReader(new FileReader("players.csv"));
             String line;
             int i = 0;
             while (((line = br.readLine()) != null) && i == 0) {
-                String[] data = line.split(",",-1);
+                String[] data = line.split(",", -1);
                 if (data.length < 8) {
                     continue;
                 }
@@ -162,14 +164,15 @@ class Jogador {
 
                     i = 1;
                 }
-            } 
+            }
             br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return x;
     }
-//----------------[CLONE]--------------------
+
+    // ----------------[CLONE]--------------------
     public Jogador clone() {
         Jogador clonado = new Jogador();
         clonado.id = this.id;
@@ -186,10 +189,7 @@ class Jogador {
 
 }
 
-
-
-class Log
-{
+class Log {
     private int comparacoes;
     private int movimentacoes;
     private long timerInit;
@@ -205,6 +205,7 @@ class Log
     public void setComparacoes(int comparacoes) {
         this.comparacoes += comparacoes;
     }
+
     public int getComparacoes() {
         return comparacoes;
     }
@@ -212,73 +213,75 @@ class Log
     public void setMovimentacoes(int movimentacoes) {
         this.movimentacoes += movimentacoes;
     }
+
     public int getMovimentacoes() {
         return movimentacoes;
     }
 
     public void status() {
-        MyIO.println("Matrícula: 800643\tTempo: " + (timerFim - timerInit)/1000.0 + "s\t" + "Comparações: " + comparacoes + "\tMovimentações: " + movimentacoes);
+        MyIO.println("Matrícula: 800643\tTempo: " + (timerFim - timerInit) / 1000.0 + "s\t" + "Comparações: "
+                + comparacoes + "\tMovimentações: " + movimentacoes);
     }
 
     public void setTimerInit(long timerInit) {
         this.timerInit = timerInit;
     }
+
     public void setTimerFim(long timerFim) {
         this.timerFim = timerFim;
     }
 }
 
+public class Questao09 {
+    private static Jogador[] jogadores = new Jogador[3991];
+    private static int comparacoes = 0;
+    private static int movimentacoes = 0;
 
-public class Questao09 
-{
-
-    public static boolean stop(String id) {
-        boolean stop = true;
-
-        if (id.equals("FIM")) {
-            stop = false;
-        }
-
-        return stop;
+    public static void swap(int i, int j) {
+        Jogador temp = jogadores[i];
+        jogadores[i] = jogadores[j];
+        jogadores[j] = temp;
     }
 
+
+
     public static void main(String[] args) {
-        File arq = new File("800643_insercao.txt");
+        File arq = new File("800643_heapsort.txt");
         int comparacoes = 0;
         int movimentacoes = 0;
-        
+
         Jogador[] jogadores = new Jogador[3991];
-        
+
         int tam = 0;
         String id = MyIO.readLine();
-        
+
         while (!id.equals("FIM")) {
             Jogador jogador = new Jogador();
             jogador = jogador.ler(id);
             jogadores[tam] = jogador;
-            
+
             tam++;
             id = MyIO.readLine();
         }
-        
-        long inicio = new Date().getTime();//marca o inicio do programa
-        
-        
-        for(int i = 0; i < tam; i++)
-        {
+
+        long inicio = new Date().getTime();// marca o inicio do programa
+        heapsort();
+        long fim = new Date().getTime();// marca a hora de finalização
+
+        for (int i = 0; i < tam; i++) {
             jogadores[i].status();
         }
 
-        long fim = new Date().getTime();//marca a hora de finalização
         long execucao = fim - inicio;
         try {
             FileWriter fw = new FileWriter(arq);
-            fw.write("Matrícula: 800643 |" + "\tTempo: "+ execucao/1000f + "s |" + " \tComparações: " + comparacoes + " | \tMovimentações: " + movimentacoes);
+            fw.write("Matrícula: 800643 |" + "\tTempo: " + execucao / 1000f + "s |" + " \tComparações: " + comparacoes
+                    + " | \tMovimentações: " + movimentacoes);
             fw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
     }
-        
+
 }
