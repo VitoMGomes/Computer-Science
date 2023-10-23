@@ -9,8 +9,6 @@
 // gcc programa.c -o programa
 // ./programa < entrada.in > saida.out
 
-int comparacoes = 0;
-int movimentacoes = 0;
 
 #define stringSize 100//tamanho maximo de uma string
 
@@ -203,26 +201,24 @@ bool stop(char *id)
     return stop;
 }
 
+bool compare(Jogador* A, Jogador* B)
+{
+    if(A->anoNascimento == B->anoNascimento)
+    {
+        return strcmp(A->nome, B->nome) > 0;
+    }
+    else
+    {
+        return A->anoNascimento > B->anoNascimento;
+    }
+}
+
 void swap(Jogador* jogador1, Jogador* jogador2)
 {
     Jogador temp = *(jogador1);
     *(jogador1) = *(jogador2);
     *(jogador2) = temp;
 }
-
-
-bool compare(Jogador* A, Jogador* B)
-{
-    if(A->altura == B->altura)
-    {
-        return strcmp(A->nome, B->nome) > 0;
-    }
-    else
-    {
-        return A->altura > B->altura;
-    }
-}
-
 
 int main()
 {
@@ -246,25 +242,26 @@ int main()
 
     fclose(arq);//fecha o arquivo
 
-    clock_t inicio = clock();
     
-    clock_t fim = clock();
+    for (int i = 1; i < tam; i++) {
+        int j = i - 1;
+        Jogador* tmp = x[i];
+        while (j >= 0 && tmp->anoNascimento < x[j]->anoNascimento) {
+            x[j + 1] = x[j];
+            j--;
+        }
+        while (j >= 0 && tmp->anoNascimento == x[j]->anoNascimento && strcmp(tmp->nome, x[j]->nome) < 0) {
+            x[j + 1] = x[j];
+            j--;
+        }
+        x[j + 1] = tmp;
+    }
 
-    double tempo = ((double) (fim - inicio)) / CLOCKS_PER_SEC;
-    //printf("A: %d | B: %d | C: %.5f", comparacoes, movimentacoes, tempo);
-
-    for(int i = 0; i < tam; i++)
+    for(int i = 0; i < 10; i++)
     {
         status(x[i]);
     }
 
-    FILE *fw = fopen("800643_bolha.txt", "w");
-    if (fw != NULL) {
-        fprintf(fw, "Matrícula: 800643 |\tTempo: %.5fs |\tComparações: %d |\tMovimentações: %d\n", tempo, comparacoes, movimentacoes);
-        fclose(fw);
-    } else {
-        printf("Erro ao abrir o arquivo.\n");
-    }
     return 0;
 
 }
