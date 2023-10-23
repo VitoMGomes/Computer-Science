@@ -9,6 +9,8 @@
 // gcc programa.c -o programa
 // ./programa < entrada.in > saida.out
 
+int comparacoes = 0;
+int movimentacoes = 0;
 
 #define stringSize 100//tamanho maximo de uma string
 
@@ -201,25 +203,6 @@ bool stop(char *id)
     return stop;
 }
 
-bool compare(Jogador* A, Jogador* B)
-{
-    if(A->anoNascimento == B->anoNascimento)
-    {
-        return strcmp(A->nome, B->nome) > 0;
-    }
-    else
-    {
-        return A->anoNascimento > B->anoNascimento;
-    }
-}
-
-void swap(Jogador* jogador1, Jogador* jogador2)
-{
-    Jogador temp = *(jogador1);
-    *(jogador1) = *(jogador2);
-    *(jogador2) = temp;
-}
-
 int main()
 {
     FILE* arq = fopen("/tmp/players.csv", "r");//abre o arquivo
@@ -242,25 +225,65 @@ int main()
 
     fclose(arq);//fecha o arquivo
 
-    
-    for (int i = 1; i < 10; i++) {
-        Jogador* tmp = x[i];
-        int j = i - 1;
+    clock_t inicio = clock();
+    int maior = x[0]->id;
 
-
-        while (j >= 0 && x[j]->anoNascimento > tmp->anoNascimento) {
-            x[j + 1] = x[j];
-            j--;
+    for (int i = 1; i < tam; i++) {
+        if(x[i]->id > maior){
+            maior = x[i]->id;
         }
-        x[j + 1] = tmp;
-        
+        comparacoes++;
     }
 
-    for(int i = 0; i < 10; i++)
+    for (int exp = 1; maior/exp > 0; exp*=10) {
+            int count[10];
+        Jogador* output[tam];
+        
+        for (int i = 0; i < 10; i++) {
+            comparacoes++;
+            count[i] = 0;
+        }
+        
+        for (int i = 0; i < tam; i++) {
+            comparacoes++;   
+            count[(x[i]->id/exp)%10]++;
+        }
+        
+        for (int i = 1; i < 10; i++) {
+            comparacoes++;
+            count[i] += count[i-1];
+        }
+        
+        for (int i = tam-1; i >= 0; i--) {
+            comparacoes++;
+            movimentacoes++;
+            output[--count[(x[i]->id/exp) % 10]] = x[i];
+            
+        }
+
+        for (int i = 0; i<tam; i++){
+            comparacoes++;
+            movimentacoes++;
+            x[i] = output[i];
+        }
+    }
+    clock_t fim = clock();
+
+    double tempo = ((double) (fim - inicio)) / CLOCKS_PER_SEC;
+    //printf("A: %d | B: %d | C: %.5f", comparacoes, movimentacoes, tempo);
+
+    for(int i = 0; i < tam; i++)
     {
         status(x[i]);
     }
 
+    FILE *fw = fopen("800643_radixsort.txt", "w");
+    if (fw != NULL) {
+        fprintf(fw, "Matrícula: 800643 |\tTempo: %.5fs |\tComparações: %d |\tMovimentações: %d\n", tempo, comparacoes, movimentacoes);
+        fclose(fw);
+    } else {
+        printf("Erro ao abrir o arquivo.\n");
+    }
     return 0;
 
 }
