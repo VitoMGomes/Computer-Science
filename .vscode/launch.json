@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Questao01",
+      "request": "launch",
+      "mainClass": "Questao01",
+      "projectName": "Computer-Science_a0c1af61"
+    },
+    {
+      "type": "java",
       "name": "PrincipalLista",
       "request": "launch",
       "mainClass": "PrincipalLista",
@@ -15,8 +22,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": ".",
-      "program": "build/Debug/outDebug",
+      "cwd": "c:/Users/vitor/Downloads/Repo/Computer-Science/TP3/TP03Q02",
+      "program": "c:/Users/vitor/Downloads/Repo/Computer-Science/TP3/TP03Q02/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
